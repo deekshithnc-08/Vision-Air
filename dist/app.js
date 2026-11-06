@@ -6,31 +6,14 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape' && nav.classList.con
 const video=document.querySelector('#hero-video');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 if (video) {
-  const control = document.querySelector('#video-control');
-  const hero = video.closest('.hero');
-  const updateLabel = () => {
-    control.hidden = video.ended;
-    control.textContent = video.paused ? 'Play film' : 'Pause film';
-  };
-  for (const event of ['playing', 'pause', 'ended']) {
-    video.addEventListener(event, updateLabel);
-  }
-  video.addEventListener('playing', () => hero.classList.add('film-playing'));
+  video.addEventListener('playing', () => video.closest('.hero').classList.add('film-playing'));
   video.muted = true;
   if (reducedMotion.matches) {
     video.autoplay = false;
     video.pause();
-    updateLabel();
   } else {
-    video.play().catch(updateLabel);
+    video.play().catch(() => {});
   }
-  control.addEventListener('click', () => {
-    if (!video.paused) {
-      video.pause();
-      return;
-    }
-    video.play().catch(updateLabel);
-  });
 }
 
 if (!reducedMotion.matches) {
