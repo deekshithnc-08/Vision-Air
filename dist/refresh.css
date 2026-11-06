@@ -128,3 +128,39 @@ address, .footer-grid a { overflow-wrap: anywhere; }
   .client-marquee.is-moving .client-lane { overflow-x: auto; }
   .client-motion { display: none; }
 }
+
+/* Equipment walkthrough */
+.lab-tour { background: #0a242b; color: #effff9; }
+.lab-tour .eyebrow { color: #a9f6e0; }
+.lab-tour h2 { margin-bottom: .65rem; }
+.lab-tour p { color: #b9d3d1; }
+.lab-tour-grid { display: grid; gap: 1.15rem; margin-top: 1.6rem; align-items: center; }
+.lab-tour-image { margin: 0; min-width: 0; }
+.lab-tour-photo { position: relative; border-radius: var(--radius); overflow: hidden; isolation: isolate; }
+.lab-tour-photo > img { display: block; width: 100%; height: auto; }
+.lab-tour-image figcaption { font-size: .73rem; color: #b9d3d1; padding-top: .55rem; }
+.lab-pins { position: absolute; inset: 0; pointer-events: none; }
+.lab-pin {
+ position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%);
+ min-width: 44px; min-height: 44px; pointer-events: auto;
+ border: 2px solid #fff; border-radius: 50%;
+ background: #09232e; color: #fff; box-shadow: 0 0 0 4px #09232e45;
+ font: 700 .85rem/1 monospace;
+}
+.lab-pin[aria-pressed="true"] { background: #b9f7dc; color: #09232e; border-color: #09232e; }
+.lab-tour-copy { min-width: 0; background: #15343b; padding: clamp(1rem, 3.4vw, 2.75rem); border: 1px solid #396067; border-radius: var(--radius); }
+.lab-tour-options { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .55rem; margin-bottom: 1.5rem; }
+.lab-tour-options button {
+ min-height: 44px; border: 1px solid #547879; background: transparent;
+ color: #e9fffb; text-align: start; padding: .5rem .65rem; border-radius: .55rem;
+ font-size: .8rem;
+}
+.lab-tour-options button[aria-pressed="true"] { background: #b9f7dc; border-color: #b9f7dc; color: #09232e; }
+.lab-point h3 { font-size: clamp(1.65rem,4vw,3rem); margin-bottom: .6rem; }
+.lab-point .text-link { color: #d7ffee; border-color: #92c4bd; }
+.tour-announcement { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.product-card:target, .service-list article:target { outline: 3px solid #358f7e; outline-offset: 4px; }
+@media (min-width: 761px) {
+ .lab-tour-grid { grid-template-columns: minmax(0, .95fr) minmax(0,1.05fr); gap: clamp(1.5rem, 5vw, 5rem); }
+ .lab-tour-image { width: min(100%, 480px); }
+}

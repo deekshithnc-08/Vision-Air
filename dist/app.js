@@ -122,3 +122,23 @@ if (clientMarquee && !reducedMotion.matches) {
     motionButton.textContent = paused ? 'Resume client logos' : 'Pause client logos';
   });
 }
+
+const labTour = document.querySelector('#explore-lab');
+if (labTour) {
+  const selectors = Array.from(labTour.querySelectorAll('[data-point]'));
+  const panels = labTour.querySelectorAll('[data-panel]');
+  const announce = labTour.querySelector('.tour-announcement');
+  const selectPoint = (key, notify = true) => {
+    for (const button of selectors) {
+      button.setAttribute('aria-pressed', String(button.dataset.point === key));
+    }
+    for (const panel of panels) {
+      panel.hidden = panel.dataset.panel !== key;
+      if (!panel.hidden && notify) announce.textContent = panel.querySelector('h3').textContent + ' details selected.';
+    }
+  };
+  selectPoint(selectors[0].dataset.point, false);
+  labTour.querySelector('.lab-pins').hidden = false;
+  labTour.querySelector('.lab-tour-options').hidden = false;
+  for (const button of selectors) button.addEventListener('click', () => selectPoint(button.dataset.point));
+}
