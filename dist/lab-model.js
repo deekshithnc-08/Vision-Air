@@ -11,7 +11,14 @@ if (context) {
   const pins = originalPins.map(original => {
     const pin = original.cloneNode(true);
     pin.removeAttribute('style');
-    pin.addEventListener('click', () => original.click());
+    pin.addEventListener('click', event => {
+      original.click();
+      if (event.detail && matchMedia('(max-width: 760px)').matches) {
+        const panel = document.getElementById(pin.getAttribute('aria-controls'));
+        const behavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
+        panel?.scrollIntoView({ block: 'nearest', behavior });
+      }
+    });
     pinLayer.append(pin);
     return pin;
   });
@@ -63,6 +70,7 @@ if (context) {
   let angle = startAngle;
   let pitch = .52;
   let drag;
+  let swipe;
 
   function project(x,y,z) {
     const rx = x*Math.cos(angle) - z*Math.sin(angle);
@@ -112,7 +120,7 @@ if (context) {
   }
 
   canvas.addEventListener('pointerdown', event => {
-    if (event.button !== 0) return;
+    if (event.pointerType === 'touch' || event.button !== 0) return;
     drag = { id:event.pointerId, x:event.clientX, y:event.clientY };
     canvas.setPointerCapture(event.pointerId);
   });
@@ -126,6 +134,34 @@ if (context) {
   });
   for (const type of ['pointerup','pointercancel','lostpointercapture']) {
     canvas.addEventListener(type, () => { drag=undefined; });
+  }
+  // Lock horizontal swipes to the model while leaving vertical page scrolling native.
+  canvas.addEventListener('touchstart', event => {
+    if (event.touches.length !== 1) {
+      swipe = undefined;
+      return;
+    }
+    const touch = event.touches[0];
+    swipe = { id: touch.identifier, startX: touch.clientX, startY: touch.clientY, x: touch.clientX, axis: null };
+  }, { passive: true });
+  canvas.addEventListener('touchmove', event => {
+    if (!swipe || event.touches.length !== 1) return;
+    const touch = event.touches[0];
+    if (touch.identifier !== swipe.id) return;
+    if (!swipe.axis) {
+      const dx = Math.abs(touch.clientX - swipe.startX);
+      const dy = Math.abs(touch.clientY - swipe.startY);
+      if (Math.max(dx, dy) < 5) return;
+      swipe.axis = dx > dy ? 'horizontal' : 'vertical';
+    }
+    if (swipe.axis !== 'horizontal') return;
+    if (event.cancelable) event.preventDefault();
+    angle = Math.max(-1.17, Math.min(.95, angle + (touch.clientX - swipe.x) * .009));
+    swipe.x = touch.clientX;
+    draw();
+  }, { passive: false });
+  for (const type of ['touchend', 'touchcancel']) {
+    canvas.addEventListener(type, () => { swipe = undefined; }, { passive: true });
   }
   viewport.querySelectorAll('[data-orbit]').forEach(button => button.addEventListener('click',()=>{
     const direction=Number(button.dataset.orbit);

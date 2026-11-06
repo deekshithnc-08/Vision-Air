@@ -1,5 +1,6 @@
 from pathlib import Path
 import json, html, re
+from hashlib import sha256
 from urllib.parse import quote
 D=Path(__file__).parent/'dist'
 ORIGIN='https://visionairelab.com'
@@ -39,7 +40,7 @@ def lab_tour():
   <div class="wrap">
    <p class="eyebrow">INSIDE THE LAB</p>
    <h2>Explore a laboratory.</h2>
-   <p>Drag to rotate the lab, or select a numbered point to explore the equipment.</p>
+   <p>Swipe sideways or drag to rotate. Tap a numbered point to explore the equipment.</p>
    <div class="lab-tour-grid">
     <div class="lab-visual">
      <div class="lab-viewport" hidden>
@@ -130,7 +131,8 @@ for slug,(title,body,desc) in pages.items():
    addEventListener('pageshow', () => requestAnimationFrame(showOpeningHero));
  })();
  </script>""" if not slug else ''
- model_script = '<script defer src="/lab-model.js"></script>' if not slug else ""
+ model_version = sha256((D/'lab-model.js').read_bytes()).hexdigest()[:12] if not slug else ''
+ model_script = f'<script defer src="/lab-model.js?v={model_version}"></script>' if not slug else ''
  doc=f'<!doctype html><html lang="en-IN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{home_start}<title>{title} | Visionaire Lab Systems</title><meta name="description" content="{desc}"><link rel="canonical" href="{url}"><meta name="theme-color" content="#172b31"><meta property="og:type" content="website"><meta property="og:title" content="{title} | Visionaire Lab Systems"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{ORIGIN}/assets/catalogue-0-0.webp"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/refresh.css"><script defer src="/app.js"></script>{model_script}<script type="application/ld+json">{json.dumps(schema)}</script></head><body>{header}<main id="main">{body}</main>{footer}</body></html>'
  target=D/slug;target.mkdir(exist_ok=True);(target/'index.html').write_text(doc)
 (D/'robots.txt').write_text(f'User-agent: *\nAllow: /\nSitemap: {ORIGIN}/sitemap.xml\n')
