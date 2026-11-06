@@ -191,11 +191,12 @@ address, .footer-grid a { overflow-wrap: anywhere; }
  .lab-tour-grid:has(.lab-viewport:not([hidden])) { grid-template-columns: minmax(0,1.35fr) minmax(0,.85fr); gap: clamp(1rem, 3vw, 3rem); }
 }
 
-/* The equipment card stays in the viewer, without changing the page's scroll position. */
+/* Keep equipment details beside the visual in the reading order, never over it. */
+.lab-tour { overflow-anchor: none; }
 .lab-inspector {
- position: absolute; z-index: 3; top: .55rem; inset-inline: .55rem;
+ position: relative; margin-top: .65rem;
  border: 1px solid #8bc9be; border-radius: .75rem;
- background: #0a232eee; color: #f2fff8; backdrop-filter: blur(10px);
+ background: #102e39; color: #f2fff8;
  box-shadow: 0 8px 26px #0005; padding: .65rem .75rem;
 }
 .lab-inspector-close {
@@ -212,4 +213,3 @@ address, .footer-grid a { overflow-wrap: anywhere; }
 
 .lab-pins:not([hidden]), .lab-model-pins { display: contents; }
 .lab-pin { z-index: 2; touch-action: manipulation; }
-.lab-inspector { z-index: 4; }

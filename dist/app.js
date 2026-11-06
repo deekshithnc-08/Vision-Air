@@ -188,17 +188,8 @@ if (labTour) {
 
     activePin = button;
     content.replaceChildren(...Array.from(panel.children, element => element.cloneNode(true)));
-    scene.append(card);
+    scene.after(card);
     card.hidden = false;
-    const pinBounds = button.getBoundingClientRect();
-    const sceneBounds = scene.getBoundingClientRect();
-    const cardHeight = card.offsetHeight;
-    const visibleTop = Math.max(0, 80 - sceneBounds.top);
-    const visibleBottom = Math.min(sceneBounds.height, innerHeight - sceneBounds.top);
-    const above = pinBounds.top - sceneBounds.top - cardHeight - 8;
-    const below = pinBounds.bottom - sceneBounds.top + 8;
-    const desiredTop = above >= visibleTop + 8 || below + cardHeight > visibleBottom ? above : below;
-    card.style.top = `${Math.max(visibleTop + 8, Math.min(desiredTop, visibleBottom - cardHeight - 8))}px`;
     if (keyboard) close.focus({ preventScroll: true });
   };
   labTour.addEventListener('click', event => {
