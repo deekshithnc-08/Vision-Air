@@ -95,3 +95,19 @@ if(form){const selected=new URLSearchParams(location.search).get('product');if(s
  document.querySelector('#copy-message').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(document.querySelector('#message-preview').textContent);document.querySelector('#copy-status').textContent='Message copied. Paste it into WhatsApp and press Send.';}catch{document.querySelector('#copy-status').textContent='Copy is unavailable here. Select and copy the message above, or use Open WhatsApp.';}});
  form.addEventListener('input',()=>{document.querySelector('#inquiry-result').hidden=true;});
 }
+
+const projectSearch = document.querySelector('#project-search');
+if (projectSearch) {
+  const projects = Array.from(document.querySelectorAll('.project-directory .clients li'));
+  const count = document.querySelector('#project-count');
+  projectSearch.closest('label').hidden = false;
+  projectSearch.addEventListener('input', () => {
+    const query = projectSearch.value.trim().toLowerCase();
+    let visible = 0;
+    for (const project of projects) {
+      project.hidden = !project.textContent.toLowerCase().includes(query);
+      if (!project.hidden) visible++;
+    }
+    count.textContent = query ? (visible ? `${visible} matching projects` : 'No matching projects.') : '';
+  });
+}
