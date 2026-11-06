@@ -39,15 +39,30 @@ def lab_tour():
   <div class="wrap">
    <p class="eyebrow">INSIDE THE LAB</p>
    <h2>Explore a laboratory.</h2>
-   <p>Pick a numbered point to see how each part supports the work.</p>
+   <p>Drag to rotate the lab, or select a numbered point to explore the equipment.</p>
    <div class="lab-tour-grid">
-    <figure class="lab-tour-image">
+    <div class="lab-visual">
+     <div class="lab-viewport" hidden>
+      <canvas width="840" height="650" aria-label="Interactive 3D illustration of laboratory equipment"></canvas>
+      <div class="lab-model-pins"></div>
+      <div class="lab-orbit-controls" role="group" aria-label="Rotate the lab model">
+       <button type="button" data-orbit="-1">Rotate left</button>
+       <button type="button" data-orbit="1">Rotate right</button>
+       <button type="button" data-orbit="0">Reset</button>
+      </div>
+      <span class="lab-model-label">INTERACTIVE MODEL / LAB 01</span>
+     </div>
+     <details class="lab-reference" open>
+      <summary>View the installation photo</summary>
+      <figure class="lab-tour-image">
      <div class="lab-tour-photo">
       <img src="/assets/catalogue-3-2.webp" width="1078" height="1475" loading="lazy" decoding="async" alt="Laboratory bench with articulated extraction arms, utility outlets, and underbench cabinets">
       <div class="lab-pins" hidden>{hotspots}</div>
      </div>
      <figcaption>Laboratory installation · Visionaire catalogue</figcaption>
-    </figure>
+      </figure>
+     </details>
+    </div>
     <div class="lab-tour-copy">
      <div class="lab-tour-options" role="group" aria-label="Choose laboratory equipment" hidden>{controls}</div>
      <p class="tour-announcement" role="status"></p>
@@ -105,7 +120,8 @@ for slug,(title,body,desc) in pages.items():
    window.scrollTo({top: 0, behavior: 'instant'});
  }
  </script>""" if not slug else ''
- doc=f'<!doctype html><html lang="en-IN"><head><meta charset="utf-8">{home_start}<meta name="viewport" content="width=device-width,initial-scale=1"><title>{title} | Visionaire Lab Systems</title><meta name="description" content="{desc}"><link rel="canonical" href="{url}"><meta name="theme-color" content="#172b31"><meta property="og:type" content="website"><meta property="og:title" content="{title} | Visionaire Lab Systems"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{ORIGIN}/assets/catalogue-0-0.webp"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/refresh.css"><script defer src="/app.js"></script><script type="application/ld+json">{json.dumps(schema)}</script></head><body>{header}<main id="main">{body}</main>{footer}</body></html>'
+ model_script = '<script defer src="/lab-model.js"></script>' if not slug else ""
+ doc=f'<!doctype html><html lang="en-IN"><head><meta charset="utf-8">{home_start}<meta name="viewport" content="width=device-width,initial-scale=1"><title>{title} | Visionaire Lab Systems</title><meta name="description" content="{desc}"><link rel="canonical" href="{url}"><meta name="theme-color" content="#172b31"><meta property="og:type" content="website"><meta property="og:title" content="{title} | Visionaire Lab Systems"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{ORIGIN}/assets/catalogue-0-0.webp"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/refresh.css"><script defer src="/app.js"></script>{model_script}<script type="application/ld+json">{json.dumps(schema)}</script></head><body>{header}<main id="main">{body}</main>{footer}</body></html>'
  target=D/slug;target.mkdir(exist_ok=True);(target/'index.html').write_text(doc)
 (D/'robots.txt').write_text(f'User-agent: *\nAllow: /\nSitemap: {ORIGIN}/sitemap.xml\n')
 (D/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f'<url><loc>{ORIGIN}/{s+"/" if s else ""}</loc></url>' for s in pages)+'</urlset>')
