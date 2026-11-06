@@ -86,3 +86,45 @@ address, .footer-grid a { overflow-wrap: anywhere; }
   .footer-grid > div:first-child { grid-column: auto; }
   .assembly-stage svg { height: min(33svh,285px); }
 }
+
+/* Keep the opening film stable while its first frame loads. */
+.hero { overflow-anchor: none; }
+
+.client-marquee { display: grid; gap: .7rem; margin-top: 1.5rem; }
+.client-lane { overflow: hidden; }
+.client-track { display: flex; width: max-content; }
+.client-track .logo-grid {
+  display: flex;
+  gap: .7rem;
+  margin: 0;
+  padding-inline-end: .7rem;
+}
+.client-track .logo-grid li { width: clamp(125px, 18vw, 174px); }
+.client-track .logo-grid img { max-width: 112px; }
+.client-track [aria-hidden="true"] { display: none; }
+.client-marquee.is-moving .client-track {
+  animation: client-slide 66s linear infinite;
+}
+.client-marquee.is-moving .client-track [aria-hidden="true"] { display: flex; }
+.client-marquee.is-moving .client-lane:nth-child(2) .client-track {
+  animation-direction: reverse;
+  animation-duration: 74s;
+}
+.client-marquee.is-paused .client-track { animation-play-state: paused; }
+@keyframes client-slide { to { transform: translateX(-50%); } }
+.client-motion {
+  margin-top: .8rem;
+  min-height: 44px;
+  padding: .4rem .8rem;
+  border: 1px solid var(--line);
+  border-radius: .55rem;
+  background: transparent;
+  color: var(--ink);
+}
+.client-marquee:not(.is-moving) .client-lane { overflow-x: auto; }
+@media (prefers-reduced-motion: reduce) {
+  .client-marquee.is-moving .client-track { animation: none; }
+  .client-marquee.is-moving .client-track [aria-hidden="true"] { display: none; }
+  .client-marquee.is-moving .client-lane { overflow-x: auto; }
+  .client-motion { display: none; }
+}
