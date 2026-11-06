@@ -58,7 +58,7 @@ if (context) {
     { points:[0,4,7,3], light:.7 }, { points:[1,2,6,5], light:.92 },
     { points:[4,5,6,7], light:1.14 }, { points:[0,3,2,1], light:.51 }
   ];
-  const anchors = [[.82,1.84,.76],[-1.8,1.15,.95],[-.6,.58,1.02],[1.87,1.25,-.09]];
+  const anchors = [[.76,2.52,.21],[-1.8,1.15,.95],[-.6,.58,1.02],[2.12,1.25,-.09]];
   const startAngle = -.36;
   let angle = startAngle;
   let pitch = .52;
