@@ -209,3 +209,7 @@ address, .footer-grid a { overflow-wrap: anywhere; }
  display: inline-flex; align-items: center; min-height: 44px; margin-top: .12rem;
  font-size: .77rem; color: #b9f7dc; border-color: #77afa4;
 }
+
+.lab-pins:not([hidden]), .lab-model-pins { display: contents; }
+.lab-pin { z-index: 2; touch-action: manipulation; }
+.lab-inspector { z-index: 4; }

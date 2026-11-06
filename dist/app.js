@@ -159,9 +159,7 @@ if (labTour) {
   selectPoint(panels[0].dataset.panel);
   labTour.querySelector('.lab-pins').hidden = false;
   labTour.querySelector('.lab-tour-options').hidden = false;
-  labTour.addEventListener('click', event => {
-    const button = event.target.closest('[data-point]');
-    if (!button) return;
+  const activatePoint = (button, keyboard = false) => {
     const panel = selectPoint(button.dataset.point);
     announce.textContent = panel.querySelector('h3').textContent + ' details selected.';
     const scene = button.closest('.lab-viewport, .lab-tour-photo');
@@ -178,8 +176,46 @@ if (labTour) {
     content.replaceChildren(...Array.from(panel.children, element => element.cloneNode(true)));
     scene.append(card);
     card.hidden = false;
-    if (event.detail === 0) close.focus({ preventScroll: true });
+    const pinBounds = button.getBoundingClientRect();
+    const sceneBounds = scene.getBoundingClientRect();
+    const cardHeight = card.offsetHeight;
+    const visibleTop = Math.max(0, 80 - sceneBounds.top);
+    const visibleBottom = Math.min(sceneBounds.height, innerHeight - sceneBounds.top);
+    const above = pinBounds.top - sceneBounds.top - cardHeight - 8;
+    const below = pinBounds.bottom - sceneBounds.top + 8;
+    const desiredTop = above >= visibleTop + 8 || below + cardHeight > visibleBottom ? above : below;
+    card.style.top = `${Math.max(visibleTop + 8, Math.min(desiredTop, visibleBottom - cardHeight - 8))}px`;
+    if (keyboard) close.focus({ preventScroll: true });
+  };
+  labTour.addEventListener('click', event => {
+    const button = event.target.closest('[data-point]');
+    if (button) activatePoint(button, event.detail === 0);
   });
+
+  // A tap targets the pin directly. Movement leaves the browser's scroll gesture alone.
+  let touchPin;
+  labTour.addEventListener('touchstart', event => {
+    const pin = event.target.closest('.lab-pin');
+    const touch = event.touches[0];
+    touchPin = pin && event.touches.length === 1
+      ? { pin, id: touch.identifier, x: touch.clientX, y: touch.clientY }
+      : undefined;
+  }, { passive: true });
+  labTour.addEventListener('touchmove', event => {
+    if (!touchPin) return;
+    const touch = event.touches[0];
+    if (event.touches.length !== 1 || Math.hypot(touch.clientX - touchPin.x, touch.clientY - touchPin.y) > 8) touchPin = undefined;
+  }, { passive: true });
+  labTour.addEventListener('touchcancel', () => { touchPin = undefined; }, { passive: true });
+  labTour.addEventListener('touchend', event => {
+    const start = touchPin;
+    touchPin = undefined;
+    if (!start || !event.cancelable) return;
+    const touch = Array.from(event.changedTouches).find(touch => touch.identifier === start.id);
+    if (!touch || Math.hypot(touch.clientX - start.x, touch.clientY - start.y) > 8) return;
+    event.preventDefault();
+    activatePoint(start.pin);
+  }, { passive: false });
   labTour.querySelector('.lab-reference').addEventListener('toggle', event => {
     if (!event.target.open && card.closest('.lab-reference')) hideCard();
   });
