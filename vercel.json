@@ -1,1 +1,11 @@
-{"buildCommand":"","outputDirectory":"dist"}
+{
+  "buildCommand": "",
+  "outputDirectory": "dist",
+  "headers": [
+    {
+      "source": "/assets/:file(lab-hero\\.mp4|catalogue-0-0\\.webp)",
+      "has": [{ "type": "query", "key": "v", "value": "[0-9a-f]{12}" }],
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    }
+  ]
+}

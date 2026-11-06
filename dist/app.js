@@ -115,8 +115,20 @@ if (projectSearch) {
 const clientMarquee = document.querySelector('#client-marquee');
 if (clientMarquee && !reducedMotion.matches) {
   const motionButton = document.querySelector('.client-motion');
-  clientMarquee.classList.add('is-moving');
-  motionButton.hidden = false;
+  const startMarquee = () => {
+    clientMarquee.classList.add('is-moving');
+    motionButton.hidden = false;
+  };
+  if ('IntersectionObserver' in window) {
+    const nearby = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      startMarquee();
+      nearby.disconnect();
+    }, { rootMargin: '300px' });
+    nearby.observe(clientMarquee);
+  } else {
+    startMarquee();
+  }
   motionButton.addEventListener('click', () => {
     const paused = clientMarquee.classList.toggle('is-paused');
     motionButton.textContent = paused ? 'Resume client logos' : 'Pause client logos';
