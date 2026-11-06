@@ -6,13 +6,15 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape' && nav.classList.con
 const video=document.querySelector('#hero-video');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 if (video) {
-  video.addEventListener('playing', () => video.closest('.hero').classList.add('film-playing'));
+  const revealFilm = () => video.closest('.hero').classList.add('film-playing');
+  video.addEventListener('playing', revealFilm);
   video.muted = true;
   if (reducedMotion.matches) {
     video.autoplay = false;
     video.pause();
   } else {
-    video.play().catch(() => {});
+    if (!video.paused && video.readyState >= 2) revealFilm();
+    video.play().then(revealFilm).catch(() => {});
   }
 }
 
