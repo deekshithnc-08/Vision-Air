@@ -115,13 +115,23 @@ for slug,(title,body,desc) in pages.items():
  footer='<footer><div class="wrap footer-grid"><div><img src="/assets/logo.png" alt="Visionaire Lab Systems" width="240" height="50"><p>Built for science.<br>Designed for what’s next.</p><p class="small">Bengaluru, India · Since 2007</p></div><div><p class="eyebrow">EXPLORE</p>'+''.join(f'<a href="/{s+"/" if s else ""}">{n}</a>' for s,n in nav)+'</div><div><p class="eyebrow">LET’S BUILD SOMETHING</p><a href="mailto:sales@visionairelab.com">sales@visionairelab.com</a><a href="tel:+919632987799">+91 96329 87799</a><a href="/contact/">WhatsApp: +91 99010 76118</a><a href="/assets/visionaire-catalogue.pdf" download>Download catalogue</a></div></div><div class="wrap footer-bottom"><span>© 2026 Visionaire Lab Systems Pvt. Ltd.</span><span>Laboratory equipment · Furniture · Turnkey projects</span></div></footer>'
  schema={'@context':'https://schema.org','@type':'Organization','name':'Visionaire Lab Systems Pvt. Ltd.','url':'https://visionairelab.com/','foundingDate':'2007-03','telephone':'+91-9632987799','email':'sales@visionairelab.com','logo':ORIGIN+'/assets/logo.png'}
  home_start = """<script>
- if (!location.hash && performance.getEntriesByType('navigation')[0]?.type !== 'back_forward') {
+ (() => {
+   const mobile = matchMedia('(max-width: 760px)').matches;
+   const hash = location.hash;
+   if (hash && !(mobile && hash === '#lab-systems')) return;
+   if (!mobile && performance.getEntriesByType('navigation')[0]?.type === 'back_forward') return;
+
    history.scrollRestoration = 'manual';
-   window.scrollTo({top: 0, behavior: 'instant'});
- }
+   if (hash) history.replaceState(history.state, '', location.pathname + location.search);
+   const showOpeningHero = () => {
+     if (!location.hash) window.scrollTo({top: 0, behavior: 'instant'});
+   };
+   showOpeningHero();
+   addEventListener('pageshow', () => requestAnimationFrame(showOpeningHero));
+ })();
  </script>""" if not slug else ''
  model_script = '<script defer src="/lab-model.js"></script>' if not slug else ""
- doc=f'<!doctype html><html lang="en-IN"><head><meta charset="utf-8">{home_start}<meta name="viewport" content="width=device-width,initial-scale=1"><title>{title} | Visionaire Lab Systems</title><meta name="description" content="{desc}"><link rel="canonical" href="{url}"><meta name="theme-color" content="#172b31"><meta property="og:type" content="website"><meta property="og:title" content="{title} | Visionaire Lab Systems"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{ORIGIN}/assets/catalogue-0-0.webp"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/refresh.css"><script defer src="/app.js"></script>{model_script}<script type="application/ld+json">{json.dumps(schema)}</script></head><body>{header}<main id="main">{body}</main>{footer}</body></html>'
+ doc=f'<!doctype html><html lang="en-IN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{home_start}<title>{title} | Visionaire Lab Systems</title><meta name="description" content="{desc}"><link rel="canonical" href="{url}"><meta name="theme-color" content="#172b31"><meta property="og:type" content="website"><meta property="og:title" content="{title} | Visionaire Lab Systems"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{ORIGIN}/assets/catalogue-0-0.webp"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/refresh.css"><script defer src="/app.js"></script>{model_script}<script type="application/ld+json">{json.dumps(schema)}</script></head><body>{header}<main id="main">{body}</main>{footer}</body></html>'
  target=D/slug;target.mkdir(exist_ok=True);(target/'index.html').write_text(doc)
 (D/'robots.txt').write_text(f'User-agent: *\nAllow: /\nSitemap: {ORIGIN}/sitemap.xml\n')
 (D/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f'<url><loc>{ORIGIN}/{s+"/" if s else ""}</loc></url>' for s in pages)+'</urlset>')
