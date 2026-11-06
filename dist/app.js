@@ -9,7 +9,8 @@ if (video) {
   const control = document.querySelector('#video-control');
   const hero = video.closest('.hero');
   const updateLabel = () => {
-    control.textContent = video.ended ? 'Replay film' : video.paused ? 'Play film' : 'Pause film';
+    control.hidden = video.ended;
+    control.textContent = video.paused ? 'Play film' : 'Pause film';
   };
   for (const event of ['playing', 'pause', 'ended']) {
     video.addEventListener(event, updateLabel);
@@ -28,7 +29,6 @@ if (video) {
       video.pause();
       return;
     }
-    if (video.ended) video.currentTime = 0;
     video.play().catch(updateLabel);
   });
 }
