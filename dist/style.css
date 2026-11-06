@@ -176,3 +176,27 @@ header { background: #f2f6f3f5; backdrop-filter: blur(18px); }
   .assembly-pin { grid-template-columns: .78fr 1.22fr; align-items: center; gap: 20px; top: 96px; min-height: calc(100svh - 96px); }
   .assembly-stage svg { height: min(73svh, 730px); }
 }
+
+.assembly.has-motion { min-height: 325svh; }
+.assembly-copy .assembly-detail { min-height: 2.7em; font-size: clamp(13px, 1.3vw, 17px); color: #9fc4c0; }
+.assembly-stage { background: radial-gradient(ellipse at 50% 53%, #246f676b, transparent 67%); }
+.assembly-stage svg { height: min(43svh, 550px); }
+.assembly-stage [data-piece] { transition: opacity .22s ease; }
+.assembly-stage [data-piece].is-current { filter: drop-shadow(0 0 7px #73f6d980); }
+.assembly-track { grid-template-columns: repeat(9, 1fr); }
+.assembly-airflow { opacity: .7; }
+.assembly.has-motion .assembly-airflow { opacity: 0; transition: opacity .5s ease; }
+.assembly.has-motion.is-complete .assembly-airflow { opacity: 1; }
+.assembly.has-motion.is-complete .assembly-airflow path {
+  stroke-dasharray: 5 12;
+  animation: exhaust-flow 1.25s linear infinite;
+  filter: drop-shadow(0 0 5px #64ffdb);
+}
+@keyframes exhaust-flow { to { stroke-dashoffset: -34; } }
+@media (min-width: 761px) {
+  .assembly-stage svg { height: min(77svh, 780px); }
+}
+@media (max-height: 650px) and (max-width: 760px) {
+  .assembly-stage svg { height: 33svh; }
+  .assembly-pin { padding-block: 12px; }
+}

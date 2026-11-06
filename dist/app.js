@@ -48,7 +48,17 @@ if (!reducedMotion.matches) {
 
   const assembly = document.querySelector('[data-assembly]');
   if (assembly) {
-    const steps = ['Base cabinet', 'Worktop', 'Containment enclosure', 'Glazed sash', 'Exhaust plenum', 'One integrated system'];
+    const steps = [
+      ['Support frame', 'The support frame carries the layers above it.'],
+      ['Base cabinet', 'The cabinet provides storage beneath the work surface.'],
+      ['Worktop', 'The worktop forms the surface inside the chamber.'],
+      ['Containment enclosure', 'Rear and side panels define the work chamber.'],
+      ['Rear baffle', 'The baffle guides air from the chamber toward the exhaust.'],
+      ['Glazed sash', 'The sash gives the operator a view and controls the working opening.'],
+      ['Exhaust plenum', 'The plenum collects air from the chamber.'],
+      ['Duct collar', 'The collar connects the hood to the building exhaust system.'],
+      ['One integrated system', 'Cabinet, chamber and exhaust come together as one fume hood.']
+    ];
     const parts = Array.from(assembly.querySelectorAll('[data-piece]'), part => ({
       part,
       order: Number(part.dataset.piece),
@@ -57,6 +67,7 @@ if (!reducedMotion.matches) {
     }));
     const number = assembly.querySelector('[data-step-number]');
     const title = assembly.querySelector('[data-step-title]');
+    const detail = assembly.querySelector('[data-step-detail]');
     const pin = assembly.querySelector('.assembly-pin');
     const markers = assembly.querySelectorAll('.assembly-track i');
     const clamp = value => Math.min(1, Math.max(0, value));
@@ -67,16 +78,19 @@ if (!reducedMotion.matches) {
       const bounds = assembly.getBoundingClientRect();
       const travel = Math.max(1, bounds.height - pin.offsetHeight);
       const progress = clamp((parseFloat(getComputedStyle(pin).top) - bounds.top) / travel);
-      const step = Math.min(5, Math.floor(progress * 6));
+      const stage = progress * steps.length;
+      const step = Math.min(steps.length - 1, Math.floor(stage));
+      assembly.classList.toggle('is-complete', step === steps.length - 1);
       for (const { part, order, x, y } of parts) {
-        const arrival = clamp(progress * 6 - order);
+        const arrival = clamp(stage - order);
         const offset = (1 - arrival) ** 2;
         part.setAttribute('transform', `translate(${x * offset} ${y * offset})`);
-        part.style.opacity = order > step ? '.48' : '1';
+        part.style.opacity = order > step ? '.60' : '1';
+        part.classList.toggle('is-current', order === step);
       }
       if (lastStep !== step) {
         number.textContent = String(step + 1).padStart(2, '0');
-        title.textContent = steps[step];
+        [title.textContent, detail.textContent] = steps[step];
         markers.forEach((marker, index) => marker.classList.toggle('active', index <= step));
         lastStep = step;
       }
