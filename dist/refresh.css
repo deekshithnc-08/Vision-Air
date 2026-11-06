@@ -190,3 +190,22 @@ address, .footer-grid a { overflow-wrap: anywhere; }
 @media (min-width: 761px) {
  .lab-tour-grid:has(.lab-viewport:not([hidden])) { grid-template-columns: minmax(0,1.35fr) minmax(0,.85fr); gap: clamp(1rem, 3vw, 3rem); }
 }
+
+/* The equipment card stays in the viewer, without changing the page's scroll position. */
+.lab-inspector {
+ position: absolute; z-index: 3; top: .55rem; inset-inline: .55rem;
+ border: 1px solid #8bc9be; border-radius: .75rem;
+ background: #0a232eee; color: #f2fff8; backdrop-filter: blur(10px);
+ box-shadow: 0 8px 26px #0005; padding: .65rem .75rem;
+}
+.lab-inspector-close {
+ position: absolute; top: .35rem; right: .4rem; min-width: 44px; min-height: 44px;
+ border: 0; background: transparent; color: #c5eee4; font-size: .75rem;
+}
+.lab-inspector .eyebrow { margin: 0 3rem .22rem 0; font-size: .65rem; }
+.lab-inspector h3 { margin: 0 3rem .25rem 0; font-size: clamp(1rem, 4.3vw, 1.3rem); }
+.lab-inspector p { margin: 0; font-size: .77rem; line-height: 1.35; }
+.lab-inspector .text-link {
+ display: inline-flex; align-items: center; min-height: 44px; margin-top: .12rem;
+ font-size: .77rem; color: #b9f7dc; border-color: #77afa4;
+}

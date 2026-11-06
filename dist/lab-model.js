@@ -11,14 +11,6 @@ if (context) {
   const pins = originalPins.map(original => {
     const pin = original.cloneNode(true);
     pin.removeAttribute('style');
-    pin.addEventListener('click', event => {
-      original.click();
-      if (event.detail && matchMedia('(max-width: 760px)').matches) {
-        const panel = document.getElementById(pin.getAttribute('aria-controls'));
-        const behavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
-        panel?.scrollIntoView({ block: 'nearest', behavior });
-      }
-    });
     pinLayer.append(pin);
     return pin;
   });

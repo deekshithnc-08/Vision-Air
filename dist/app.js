@@ -125,20 +125,62 @@ if (clientMarquee && !reducedMotion.matches) {
 
 const labTour = document.querySelector('#explore-lab');
 if (labTour) {
-  const selectors = Array.from(labTour.querySelectorAll('[data-point]'));
-  const panels = labTour.querySelectorAll('[data-panel]');
+  const panels = Array.from(labTour.querySelectorAll('[data-panel]'));
   const announce = labTour.querySelector('.tour-announcement');
-  const selectPoint = (key, notify = true) => {
-    for (const button of selectors) {
+  const card = document.createElement('aside');
+  card.className = 'lab-inspector';
+  card.setAttribute('aria-label', 'Equipment details');
+  card.hidden = true;
+
+  const close = document.createElement('button');
+  close.type = 'button';
+  close.className = 'lab-inspector-close';
+  close.textContent = 'Close';
+  const content = document.createElement('div');
+  card.append(close, content);
+  let activePin;
+
+  const hideCard = () => {
+    if (card.contains(document.activeElement)) activePin?.focus({ preventScroll: true });
+    card.hidden = true;
+    activePin = undefined;
+  };
+  close.addEventListener('click', hideCard);
+  labTour.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !card.hidden) hideCard();
+  });
+  const selectPoint = key => {
+    for (const button of labTour.querySelectorAll('[data-point]')) {
       button.setAttribute('aria-pressed', String(button.dataset.point === key));
     }
-    for (const panel of panels) {
-      panel.hidden = panel.dataset.panel !== key;
-      if (!panel.hidden && notify) announce.textContent = panel.querySelector('h3').textContent + ' details selected.';
-    }
+    for (const panel of panels) panel.hidden = panel.dataset.panel !== key;
+    return panels.find(panel => panel.dataset.panel === key);
   };
-  selectPoint(selectors[0].dataset.point, false);
+  selectPoint(panels[0].dataset.panel);
   labTour.querySelector('.lab-pins').hidden = false;
   labTour.querySelector('.lab-tour-options').hidden = false;
-  for (const button of selectors) button.addEventListener('click', () => selectPoint(button.dataset.point));
+  labTour.addEventListener('click', event => {
+    const button = event.target.closest('[data-point]');
+    if (!button) return;
+    const panel = selectPoint(button.dataset.point);
+    announce.textContent = panel.querySelector('h3').textContent + ' details selected.';
+    const scene = button.closest('.lab-viewport, .lab-tour-photo');
+    if (!scene || (scene.classList.contains('lab-viewport') && !matchMedia('(max-width: 760px)').matches)) {
+      hideCard();
+      return;
+    }
+    if (button === activePin && !card.hidden) {
+      hideCard();
+      return;
+    }
+
+    activePin = button;
+    content.replaceChildren(...Array.from(panel.children, element => element.cloneNode(true)));
+    scene.append(card);
+    card.hidden = false;
+    if (event.detail === 0) close.focus({ preventScroll: true });
+  });
+  labTour.querySelector('.lab-reference').addEventListener('toggle', event => {
+    if (!event.target.open && card.closest('.lab-reference')) hideCard();
+  });
 }
