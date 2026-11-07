@@ -336,3 +336,13 @@ footer { padding-bottom: 5rem; }
  .quote-placeholder { padding: 1.4rem; }
  .quote-placeholder blockquote { font-size: 1.4rem; }
 }
+
+.assembly-live-model { width: 100%; overflow: hidden; cursor: grab; touch-action: pan-y; }
+.assembly-live-model:active { cursor: grabbing; }
+.assembly-live-model svg { display: block; width: 100%; }
+.assembly-scrubber { overflow-x: scroll; overflow-y: hidden; height: 24px; scrollbar-color: #a9e4d0 #1d4347; scrollbar-width: auto; }
+.assembly-scrubber > div { width: 500%; height: 1px; }
+.assembly-scrubber::-webkit-scrollbar { height: 12px; }
+.assembly-scrubber::-webkit-scrollbar-thumb { background: #a9e4d0; border-radius: 8px; }
+.assembly-scrubber::-webkit-scrollbar-track { background: #1d4347; border-radius: 8px; }
+.assembly-live-model:focus-visible { outline: 2px solid #b9f7dc; outline-offset: 3px; }
