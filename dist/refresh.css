@@ -356,3 +356,28 @@ footer { padding-bottom: 5rem; }
 .assembly-live-model { user-select: none; -webkit-user-select: none; }
 
 .portfolio-catalogue { margin-top: 1rem; min-height: 48px; }
+
+/* Animated extraction flow follows the assembled hood's exhaust path. */
+.assembly .assembly-fumes { opacity: 0; transition: opacity .45s ease; }
+.assembly.is-complete .assembly-fumes { opacity: .42; }
+.assembly.is-complete .assembly-fumes path {
+ stroke-width: 10; stroke-dasharray: 18 30; filter: blur(3px);
+ animation: fume-rise 2.8s linear infinite;
+}
+.assembly.is-complete .assembly-fumes path:nth-child(2) { animation-delay: -.9s; opacity: .7; }
+.assembly.is-complete .assembly-fumes path:nth-child(3) { animation-delay: -1.6s; opacity: .55; }
+.assembly.is-complete .assembly-airflow path {
+ stroke-dasharray: 5 12; animation: extraction-flow 1.4s linear infinite;
+ filter: drop-shadow(0 0 4px #7bf5cf);
+}
+@keyframes fume-rise { to { stroke-dashoffset: -96; } }
+@keyframes extraction-flow { to { stroke-dashoffset: -34; } }
+@media (prefers-reduced-motion: reduce) {
+ .assembly.is-complete .assembly-fumes path, .assembly.is-complete .assembly-airflow path { animation: none; }
+}
+
+.quote-portrait { width: 82px; height: 96px; flex: 0 0 82px; overflow: hidden; border-style: solid; }
+.quote-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
+.quote-person strong { font-size: 1rem; letter-spacing: -.015em; }
+.quote-person small { display: block; margin-top: .35rem; font-size: .65rem; }
+.quote-placeholder blockquote { line-height: 1.5; }

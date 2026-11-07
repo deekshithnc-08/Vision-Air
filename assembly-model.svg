@@ -56,6 +56,12 @@
             <ellipse cx="317" cy="122" rx="29" ry="9" fill="#173c46"/>
           </g>
         </g>
+        <g class="assembly-fumes" fill="none" stroke="#b6ffeb" stroke-linecap="round" aria-hidden="true">
+          <path d="M202 354c48-4 72-22 95-51s27-59 25-79"/>
+          <path d="M230 350c45-5 75-28 89-58s19-48 17-68"/>
+          <path d="M260 345c40-8 68-33 79-60s12-40 10-59"/>
+          <path d="M315 156v-38"/>
+        </g>
         <g class="assembly-airflow" fill="none" stroke="#81ffdf" stroke-width="2.2" stroke-linecap="round">
           <path d="M199 356c45 0 86-13 106-39 23-28 19-62 18-90m-96 127c45 0 86-13 106-39 23-28 19-62 18-90m-98 126c44 0 78-13 94-39 20-28 15-60 14-88"/>
           <path d="M299 157v-38m18 38v-54m17 53v-38"/>

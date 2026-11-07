@@ -129,14 +129,17 @@ def assembly_section():
 
 
 def testimonials():
- return '<section class="testimonials section"><div class="wrap"><p class="eyebrow">CLIENT PERSPECTIVES</p><h2>Built around the people<br>who use the lab.</h2><div class="placeholder-grid">' + ''.join(
-  f'<article class="quote-placeholder"><div class="quote-top"><span class="quote-symbol" aria-hidden="true">“</span><span class="placeholder-tag">Sample testimonial</span></div><blockquote>“{quote}”</blockquote><div class="quote-person"><div class="quote-portrait" role="img" aria-label="Client portrait placeholder"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="28" r="12" fill="currentColor"/><path d="M16 69c0-25 48-25 48 0" fill="currentColor"/></svg><span>Photo</span></div><div><strong>Client name placeholder</strong><p>{role}</p><small>Organisation to be added</small></div></div></article>'
-  for quote, role in [
-   ('The layout gives our team a clearer, more organised workspace.', 'Laboratory manager'),
-   ('Having equipment, furniture and services planned together made coordination easier.', 'Project lead'),
-   ('The space works around how our researchers use the laboratory each day.', 'Research team lead')
-  ]
- ) + '</div><p class="small">Illustrative copy for layout review. Approved client quotes and names will replace these samples.</p></div></section>'
+ profiles = [
+  ('Anita Rao', 'Laboratory manager', 'anita', 'The layout gives our team a clearer, more organised workspace.'),
+  ('Arjun Menon', 'Project lead', 'arjun', 'Having equipment, furniture and services planned together made coordination easier.'),
+  ('Meera Iyer', 'Research team lead', 'meera', 'The space works around how our researchers use the laboratory each day.')
+ ]
+ cards = ''.join(
+  f'<article class="quote-placeholder"><div class="quote-top"><span class="quote-symbol" aria-hidden="true">“</span><span class="placeholder-tag">Illustrative testimonial</span></div><blockquote>“{quote}”</blockquote><div class="quote-person"><div class="quote-portrait"><img src="/assets/testimonials/{photo}.jpg" width="144" height="176" loading="lazy" alt="AI-generated portrait of fictional profile {name}"></div><div><strong>{name}</strong><p>{role}</p><small>Fictional profile · AI portrait</small></div></div></article>'
+  for name, role, photo, quote in profiles
+ )
+ return '<section class="testimonials section"><div class="wrap"><p class="eyebrow">CLIENT PERSPECTIVES</p><h2>Built around the people<br>who use the lab.</h2><div class="placeholder-grid">' + cards + '</div><p class="small">Sample testimonials with fictional names and AI-generated portraits for design review. Approved quotes and client photographs will replace these examples.</p></div></section>'
+
 
 def portfolio_placeholders():
  return '<section class="section soft"><div class="wrap"><p class="eyebrow">PROJECT STORIES</p><h2>A closer look at the work.</h2><div class="placeholder-grid">' + ''.join(
