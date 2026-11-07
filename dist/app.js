@@ -42,10 +42,20 @@ if (assembly) {
   const markers = assembly.querySelectorAll('.assembly-progress i');
   let gesture;
   let step;
-  const render = () => {
+  let renderedProgress = 0;
+  let animationFrame;
+  let previousTime;
+  const render = time => {
+    animationFrame = undefined;
     const travel = scrubber.scrollWidth - scrubber.clientWidth;
-    const progress = travel > 0 ? scrubber.scrollLeft / travel : 0;
-    const stage = progress * 8;
+    const target = travel > 0 ? scrubber.scrollLeft / travel : 0;
+    const elapsed = previousTime === undefined ? 16 : Math.min(64, time - previousTime);
+    previousTime = time;
+    const blend = reducedMotion.matches ? 1 : 1 - Math.exp(-elapsed / 65);
+    renderedProgress += (target - renderedProgress) * blend;
+    if (Math.abs(target - renderedProgress) < .0001) renderedProgress = target;
+    else animationFrame = requestAnimationFrame(render);
+    const stage = renderedProgress * 8;
     const index = Math.min(8, Math.floor(stage + .001));
     for (const part of pieces) {
       const order = Number(part.dataset.piece);
@@ -62,11 +72,16 @@ if (assembly) {
     assembly.querySelector('[data-step-detail]').textContent = stages[index][1];
     markers.forEach((marker,i) => marker.classList.toggle('active', i <= index));
   };
-  scrubber.addEventListener('scroll', render, { passive: true });
+  const queueRender = () => {
+    if (animationFrame !== undefined) return;
+    previousTime = undefined;
+    animationFrame = requestAnimationFrame(render);
+  };
+  scrubber.addEventListener('scroll', queueRender, { passive: true });
   scene.addEventListener('wheel', event => {
     if (!event.deltaX || Math.abs(event.deltaY) > Math.abs(event.deltaX)) return;
     event.preventDefault();
-    scrubber.scrollLeft += event.deltaX;
+    scrubber.scrollLeft += event.deltaX * 5;
   }, { passive: false });
   scene.addEventListener('pointerdown', event => {
     if (event.button !== 0) return;
@@ -75,7 +90,7 @@ if (assembly) {
   });
   scene.addEventListener('pointermove', event => {
     if (gesture?.id === event.pointerId) {
-      scrubber.scrollLeft = gesture.start + (gesture.x - event.clientX) * 2;
+      scrubber.scrollLeft = gesture.start + (gesture.x - event.clientX) * 10;
     }
   });
   for (const type of ['pointerup','pointercancel','lostpointercapture']) scene.addEventListener(type,()=>{gesture=undefined;});
@@ -85,8 +100,8 @@ if (assembly) {
     const end = scrubber.scrollWidth - scrubber.clientWidth;
     scrubber.scrollLeft = event.key === 'Home' ? 0 : event.key === 'End' ? end : scrubber.scrollLeft + (event.key === 'ArrowRight' ? 1 : -1)*end/8;
   });
-  new ResizeObserver(render).observe(scrubber);
-  render();
+  new ResizeObserver(queueRender).observe(scrubber);
+  queueRender();
 }
 
 document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});document.querySelectorAll('[data-category]').forEach(card=>card.hidden=button.dataset.filter!=='All products'&&card.dataset.category!==button.dataset.filter);}));

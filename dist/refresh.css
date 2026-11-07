@@ -346,3 +346,11 @@ footer { padding-bottom: 5rem; }
 .assembly-scrubber::-webkit-scrollbar-thumb { background: #a9e4d0; border-radius: 8px; }
 .assembly-scrubber::-webkit-scrollbar-track { background: #1d4347; border-radius: 8px; }
 .assembly-live-model:focus-visible { outline: 2px solid #b9f7dc; outline-offset: 3px; }
+
+.portfolio-opening { padding-top: clamp(1.5rem,4vw,3rem); padding-bottom: 1.4rem; margin-bottom: 0; }
+.portfolio-opening h1 { font-size: clamp(2.1rem,4.5vw,4rem); margin-bottom: .6rem; }
+.portfolio-opening .lead { font-size: 1rem; margin-bottom: 0; }
+.portfolio-opening + .client-section { padding-top: 1.5rem; padding-bottom: 2rem; }
+.portfolio-opening + .client-section .section-heading h2 { font-size: clamp(1.6rem,3vw,2.8rem); }
+.portfolio-opening + .client-section .eyebrow { margin-bottom: .6rem; }
+.assembly-live-model { user-select: none; -webkit-user-select: none; }
