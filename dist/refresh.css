@@ -354,3 +354,5 @@ footer { padding-bottom: 5rem; }
 .portfolio-opening + .client-section .section-heading h2 { font-size: clamp(1.6rem,3vw,2.8rem); }
 .portfolio-opening + .client-section .eyebrow { margin-bottom: .6rem; }
 .assembly-live-model { user-select: none; -webkit-user-select: none; }
+
+.portfolio-catalogue { margin-top: 1rem; min-height: 48px; }
