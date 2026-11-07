@@ -3,8 +3,8 @@
     <div class="assembly-copy">
       <p class="eyebrow">01 / LABORATORY SYSTEMS</p>
       <h2>Engineered<br><em>in layers.</em></h2>
-      <p>From a stable work surface to the exhaust path above it, every layer has a job. Together they form one laboratory fume hood.</p>
-      <p class="assembly-status" aria-hidden="true"><span data-step-number>09</span><span data-step-title>One integrated system</span></p>
+      <p>From separate components to one fume hood. Swipe left or right to bring the layers together.</p>
+      <p class="assembly-status" role="status"><span data-step-number>09</span><span data-step-title>One integrated system</span></p>
       <p class="assembly-detail" data-step-detail>Every component supports the path from the work chamber to the exhaust connection.</p>
     </div>
     <div class="assembly-stage">
@@ -72,7 +72,12 @@
         </g>
       </svg>
       <div class="assembly-meta" aria-hidden="true"><span>VISIONAIRE / FUME HOOD</span><span>ASSEMBLY 01</span></div>
-      <div class="assembly-track" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="assembly-controls" hidden>
+        <div class="assembly-step-nav"><button type="button" data-assembly-prev>Previous layer</button><span>Swipe to explore</span><button type="button" data-assembly-next>Next layer</button></div>
+        <label class="assembly-range-label" for="assembly-range">Build the fume hood</label>
+        <input id="assembly-range" type="range" min="0" max="8" value="0" step="1" aria-label="Fume hood assembly layer">
+      </div>
+      <div class="assembly-step-buttons" role="group" aria-label="Choose an assembly layer" hidden><button type="button" data-assembly-step="0" aria-label="Step 1: Support frame" aria-pressed="false">01</button><button type="button" data-assembly-step="1" aria-label="Step 2: Base cabinet" aria-pressed="false">02</button><button type="button" data-assembly-step="2" aria-label="Step 3: Worktop" aria-pressed="false">03</button><button type="button" data-assembly-step="3" aria-label="Step 4: Enclosure" aria-pressed="false">04</button><button type="button" data-assembly-step="4" aria-label="Step 5: Rear baffle" aria-pressed="false">05</button><button type="button" data-assembly-step="5" aria-label="Step 6: Glazed sash" aria-pressed="false">06</button><button type="button" data-assembly-step="6" aria-label="Step 7: Exhaust plenum" aria-pressed="false">07</button><button type="button" data-assembly-step="7" aria-label="Step 8: Duct collar" aria-pressed="false">08</button><button type="button" data-assembly-step="8" aria-label="Step 9: Complete hood" aria-pressed="false">09</button></div>
     </div>
   </div>
 </section>

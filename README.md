@@ -26,7 +26,7 @@ Open http://127.0.0.1:4173/. Use a web server rather than opening HTML files dir
 
 All seven fields are required: name, company, phone, email, product/service, location and requirements. The visitor reviews a generated message, opens WhatsApp and presses Send. The site does not automatically send messages or store personal information. No backend lead capture is enabled. Email and telephone alternatives are supplied.
 
-WhatsApp: +91 9901076118. This number appears in the supplied catalogue and in the existing site's WhatsApp link (`https://api.whatsapp.com/send/?phone=919901076118`). Telephone: +91 9632987799, as displayed on the existing contact page. Source verification does not establish current account availability or delivery; no message was sent during testing.
+Current inquiry destination: +91 9632987799, selected by the owner. The earlier catalogue destination was +91 9901076118 and appeared in the existing site's WhatsApp link (`https://api.whatsapp.com/send/?phone=919901076118`). Telephone: +91 9632987799, as displayed on the existing contact page. Source verification does not establish current account availability or delivery; no message was sent during testing.
 
 ## Source and editorial notes
 
@@ -45,3 +45,7 @@ The company is described as “Since 2007” / “Nearly 20 years”. The suppli
 ## Verification
 
 Browser checks at desktop and 390px mobile width: six pages render, one H1 per page, no horizontal overflow, no broken loaded images. Mobile menu, furniture filtering, product-prefilled inquiry and the complete encoded WhatsApp destination were checked. Desktop video playback and mobile paused fallback checked. JavaScript syntax and local asset/page links checked. No test inquiry was sent. Actual WhatsApp delivery requires the visitor to send from their account.
+
+## November 2026 content update
+
+Assembly exploration now uses horizontal swipes, Previous/Next controls, numbered steps and a range slider. The client marquee replaces the former credentials strip. All lead and floating WhatsApp links use +91 9632987799. Testimonials, case study cards, factory/team image slots and certification cards are explicitly labelled placeholders awaiting approved content. No placeholder quote is attributed to a real client.

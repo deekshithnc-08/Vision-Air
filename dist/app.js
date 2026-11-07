@@ -31,8 +31,10 @@ if (!reducedMotion.matches) {
     observer.observe(element);
   });
 
-  const assembly = document.querySelector('[data-assembly]');
-  if (assembly) {
+}
+
+const assembly = document.querySelector('[data-assembly]');
+if (assembly) {
     const steps = [
       ['Support frame', 'The support frame carries the layers above it.'],
       ['Base cabinet', 'The cabinet provides storage beneath the work surface.'],
@@ -44,56 +46,65 @@ if (!reducedMotion.matches) {
       ['Duct collar', 'The collar connects the hood to the building exhaust system.'],
       ['One integrated system', 'Cabinet, chamber and exhaust come together as one fume hood.']
     ];
-    const parts = Array.from(assembly.querySelectorAll('[data-piece]'), part => ({
-      part,
-      order: Number(part.dataset.piece),
-      x: Number(part.dataset.x),
-      y: Number(part.dataset.y)
-    }));
-    const number = assembly.querySelector('[data-step-number]');
-    const title = assembly.querySelector('[data-step-title]');
-    const detail = assembly.querySelector('[data-step-detail]');
-    const pin = assembly.querySelector('.assembly-pin');
-    const markers = assembly.querySelectorAll('.assembly-track i');
-    const clamp = value => Math.min(1, Math.max(0, value));
-    let frame;
-    let lastStep;
-    const renderAssembly = () => {
-      frame = undefined;
-      const bounds = assembly.getBoundingClientRect();
-      const travel = Math.max(1, bounds.height - pin.offsetHeight);
-      const progress = clamp((parseFloat(getComputedStyle(pin).top) - bounds.top) / travel);
-      const stage = progress * steps.length;
-      const step = Math.min(steps.length - 1, Math.floor(stage));
-      assembly.classList.toggle('is-complete', step === steps.length - 1);
-      for (const { part, order, x, y } of parts) {
-        const arrival = clamp(stage - order);
-        const offset = (1 - arrival) ** 2;
-        part.setAttribute('transform', `translate(${x * offset} ${y * offset})`);
-        part.style.opacity = order > step ? '.60' : '1';
-        part.classList.toggle('is-current', order === step);
-      }
-      if (lastStep !== step) {
-        number.textContent = String(step + 1).padStart(2, '0');
-        [title.textContent, detail.textContent] = steps[step];
-        markers.forEach((marker, index) => marker.classList.toggle('active', index <= step));
-        lastStep = step;
-      }
-    };
-    const queueAssembly = () => {
-      if (frame === undefined) frame = requestAnimationFrame(renderAssembly);
-    };
-    assembly.classList.add('has-motion');
-    addEventListener('scroll', queueAssembly, { passive: true });
-    addEventListener('resize', queueAssembly);
-    renderAssembly();
-  }
+
+  const parts = Array.from(assembly.querySelectorAll('[data-piece]'));
+  const number = assembly.querySelector('[data-step-number]');
+  const title = assembly.querySelector('[data-step-title]');
+  const detail = assembly.querySelector('[data-step-detail]');
+  const stage = assembly.querySelector('.assembly-stage');
+  const range = assembly.querySelector('#assembly-range');
+  const previous = assembly.querySelector('[data-assembly-prev]');
+  const next = assembly.querySelector('[data-assembly-next]');
+  const markers = assembly.querySelectorAll('[data-assembly-step]');
+  let index = 0;
+  let gesture;
+
+  const showStep = value => {
+    index = Math.min(steps.length - 1, Math.max(0, value));
+    assembly.classList.toggle('is-complete', index === steps.length - 1);
+    for (const part of parts) {
+      const order = Number(part.dataset.piece);
+      const offset = order <= index ? 0 : 1;
+      part.setAttribute('transform', `translate(${Number(part.dataset.x) * offset} ${Number(part.dataset.y) * offset})`);
+      part.style.opacity = order > index ? '.6' : '1';
+      part.classList.toggle('is-current', order === index);
+    }
+    number.textContent = String(index + 1).padStart(2, '0');
+    [title.textContent, detail.textContent] = steps[index];
+    range.value = index;
+    range.setAttribute('aria-valuetext', `${index + 1} of ${steps.length}: ${steps[index][0]}`);
+    previous.disabled = index === 0;
+    next.disabled = index === steps.length - 1;
+    markers.forEach((marker, i) => marker.setAttribute('aria-pressed', String(i === index)));
+  };
+  previous.addEventListener('click', () => showStep(index - 1));
+  next.addEventListener('click', () => showStep(index + 1));
+  range.addEventListener('input', () => showStep(Number(range.value)));
+  markers.forEach(marker => marker.addEventListener('click', () => showStep(Number(marker.dataset.assemblyStep))));
+  stage.addEventListener('pointerdown', event => {
+    if (event.target.closest('button, input')) return;
+    gesture = { id: event.pointerId, x: event.clientX, y: event.clientY };
+    stage.setPointerCapture(event.pointerId);
+  });
+  stage.addEventListener('pointerup', event => {
+    if (gesture?.id !== event.pointerId) return;
+    const dx = event.clientX - gesture.x;
+    const dy = event.clientY - gesture.y;
+    if (Math.abs(dx) > 32 && Math.abs(dx) > Math.abs(dy) * 1.2) showStep(index + (dx < 0 ? 1 : -1));
+    gesture = undefined;
+  });
+  stage.addEventListener('pointercancel', () => { gesture = undefined; });
+  assembly.querySelector('.assembly-controls').hidden = false;
+  assembly.querySelector('.assembly-step-buttons').hidden = false;
+  assembly.classList.add('swipe-assembly');
+  showStep(0);
 }
+
 document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});document.querySelectorAll('[data-category]').forEach(card=>card.hidden=button.dataset.filter!=='All products'&&card.dataset.category!==button.dataset.filter);}));
 const form=document.querySelector('#inquiry-form');
 if(form){const selected=new URLSearchParams(location.search).get('product');if(selected&&Array.from(form.elements.product.options).some(x=>x.value===selected))form.elements.product.value=selected;
  form.elements.phone.addEventListener('input',()=>form.elements.phone.setCustomValidity(''));
- form.addEventListener('submit',e=>{e.preventDefault();const phone=form.elements.phone;const digits=phone.value.replace(/\D/g,'');if(digits.length<7||digits.length>15){phone.setCustomValidity('Enter a phone number with 7 to 15 digits, including country code where applicable.');phone.reportValidity();return;}const data=new FormData(form);const fields=[['Name','name'],['Company','company'],['Phone','phone'],['Email','email'],['Product / service','product'],['Location','location'],['Requirements','requirements']];const message='Hello Visionaire, I would like to discuss a laboratory project.\n\n'+fields.map(([label,key])=>label+': '+String(data.get(key)).trim()).join('\n');document.querySelector('#message-preview').textContent=message;document.querySelector('#whatsapp-send').href='https://wa.me/919901076118?text='+encodeURIComponent(message);const result=document.querySelector('#inquiry-result');result.hidden=false;result.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'center'});});
+ form.addEventListener('submit',e=>{e.preventDefault();const phone=form.elements.phone;const digits=phone.value.replace(/\D/g,'');if(digits.length<7||digits.length>15){phone.setCustomValidity('Enter a phone number with 7 to 15 digits, including country code where applicable.');phone.reportValidity();return;}const data=new FormData(form);const fields=[['Name','name'],['Company','company'],['Phone','phone'],['Email','email'],['Product / service','product'],['Location','location'],['Requirements','requirements']];const message='Hello Visionaire, I would like to discuss a laboratory project.\n\n'+fields.map(([label,key])=>label+': '+String(data.get(key)).trim()).join('\n');document.querySelector('#message-preview').textContent=message;document.querySelector('#whatsapp-send').href='https://wa.me/919632987799?text='+encodeURIComponent(message);const result=document.querySelector('#inquiry-result');result.hidden=false;result.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'center'});});
  document.querySelector('#copy-message').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(document.querySelector('#message-preview').textContent);document.querySelector('#copy-status').textContent='Message copied. Paste it into WhatsApp and press Send.';}catch{document.querySelector('#copy-status').textContent='Copy is unavailable here. Select and copy the message above, or use Open WhatsApp.';}});
  form.addEventListener('input',()=>{document.querySelector('#inquiry-result').hidden=true;});
 }

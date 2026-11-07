@@ -213,3 +213,85 @@ address, .footer-grid a { overflow-wrap: anywhere; }
 
 .lab-pins:not([hidden]), .lab-model-pins { display: contents; }
 .lab-pin { z-index: 2; touch-action: manipulation; }
+
+/* Layer explorer: a compact interaction instead of a pinned scroll sequence. */
+.assembly, .assembly.has-motion { min-height: 0; }
+.assembly-pin { position: relative; top: auto; min-height: 0; padding-block: clamp(2rem,6vw,5rem); }
+.assembly-stage { touch-action: pan-y; min-width: 0; }
+.assembly-stage svg { height: min(46svh, 440px); }
+.assembly.swipe-assembly .hood-parts > g { transition: transform .5s ease, opacity .3s ease; }
+.assembly .assembly-airflow { opacity: 0; }
+.assembly.is-complete .assembly-airflow { opacity: 1; }
+.assembly-step-nav { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: 1rem; }
+.assembly-step-nav button, .assembly-step-buttons button { color: #d9fff4; background: #173f45; border: 1px solid #719d97; border-radius: .5rem; min-height: 44px; padding: .4rem .55rem; font-size: .75rem; }
+.assembly-step-nav button:disabled { opacity: .4; cursor: default; }
+.assembly-step-nav span, .assembly-range-label { color: #adcac5; font-size: .7rem; }
+.assembly-range-label { display: block; margin-top: .6rem; }
+#assembly-range { padding: 0; margin-top: .35rem; accent-color: #a9f6e0; min-height: 36px; }
+.assembly-step-buttons { display: grid; grid-template-columns: repeat(9,minmax(0,1fr)); gap: .25rem; }
+.assembly-step-buttons button { padding: .25rem 0; min-height: 44px; font: .65rem monospace; }
+.assembly-step-buttons button[aria-pressed="true"] { color: #0b242b; background: #b9f7dc; }
+.mobile-catalogue { display: none; }
+.placeholder-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; margin-block: 1.6rem; }
+.testimonials { background: #f5f5ef; }
+.quote-placeholder, .content-placeholder { padding: clamp(1rem,3vw,2rem); border: 1px solid var(--line); border-radius: var(--radius); background: #fff; min-width: 0; }
+.placeholder-tag { display: block; font: 11px/1.5 monospace; letter-spacing: .035em; color: #715c43; margin-bottom: 1rem; }
+.quote-placeholder blockquote { margin: 0 0 1rem; font: clamp(1.2rem,2vw,1.65rem)/1.5 Georgia,serif; color: #163d40; }
+.quote-placeholder p:last-child { font-size: .8rem; margin: 0; }
+.certification-placeholders { margin-top: 4rem; }
+.photo-placeholder-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.5rem; margin-top: 2rem; }
+.photo-placeholder { margin: 0; min-width: 0; }
+.photo-slot { min-height: 300px; display: flex; flex-direction: column; justify-content: end; gap: .6rem; padding: 2rem; border-radius: var(--radius); background: repeating-linear-gradient(120deg,#376b6826 0 1px,transparent 1px 20px),linear-gradient(130deg,#183d43,#486c62); color: #e3fff0; }
+.photo-slot span { font: 4rem Georgia,serif; opacity: .5; }
+.photo-slot strong { font-size: 1.6rem; font-weight: 400; }
+.photo-slot small { letter-spacing: .1em; font-size: .7rem; }
+.photo-placeholder figcaption { font-size: .8rem; padding-top: .7rem; color: var(--muted); }
+.contact-opening { padding-top: 2rem; padding-bottom: 1.25rem; }
+.contact-opening .eyebrow { margin-bottom: .65rem; }
+.contact-opening h1 { font-size: clamp(2rem,4vw,4rem); margin-bottom: 1.2rem; }
+.contact-actions { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem 2rem; }
+.contact-actions > a { display: flex; flex-direction: column; min-height: 44px; justify-content: center; }
+.contact-actions span { font-size: .75rem; color: var(--muted); }
+.contact-actions strong { font-size: clamp(.9rem,1.5vw,1.1rem); font-weight: 500; }
+.contact-actions .contact-whatsapp { flex-direction: row; align-items: center; gap: .5rem; }
+.contact-whatsapp svg { width: 24px; height: 24px; color: #176c49; }
+.contact-form-section { max-width: 1050px; margin-inline: 0; }
+.contact-form-section .form-panel { padding: clamp(1rem,2vw,1.75rem); }
+.contact-form-section .form-panel > .eyebrow { display: none; }
+.contact-form-section h2 { font-size: 1.4rem; margin-bottom: 1rem; }
+.contact-form-section .form-grid { gap: .8rem 1rem; }
+.contact-form-section .form-grid input, .contact-form-section .form-grid select { margin-top: .25rem; min-height: 44px; padding: .5rem .65rem; }
+.contact-locations .location-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 2rem; }
+.contact-locations .address { margin-top: 0; }
+.floating-whatsapp { position: fixed; right: 1rem; bottom: max(1rem,env(safe-area-inset-bottom)); z-index: 30; display: flex; align-items: center; gap: .5rem; min-height: 52px; padding: .65rem .9rem; border-radius: 99px; background: #176c49; color: white; box-shadow: 0 4px 20px #0003; border: 1px solid #b4e6ce; }
+.floating-whatsapp svg { width: 27px; height: 27px; flex-shrink: 0; }
+.floating-whatsapp span { font-size: .8rem; }
+footer { padding-bottom: 5rem; }
+@media (min-width: 761px) { .assembly-stage svg { height: min(57svh,560px); } }
+@media (max-width: 760px) {
+ .mobile-catalogue { display: block; }
+ .hero-actions { gap: .6rem; }
+ .placeholder-grid, .photo-placeholder-grid, .contact-locations .location-grid { grid-template-columns: minmax(0,1fr); }
+ .contact-opening { padding-top: 1.3rem; }
+ .contact-opening h1 { font-size: clamp(1.75rem,7.7vw,2.65rem); margin-bottom: .8rem; }
+ .contact-actions { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: .6rem; }
+ .contact-whatsapp { grid-column: 1/-1; justify-content: start!important; }
+ .contact-form-section .form-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+ .contact-form-section label { font-size: .73rem; }
+ .contact-form-section input, .contact-form-section select { font-size: 16px; }
+ .floating-whatsapp { padding: .65rem; }
+ .floating-whatsapp span { display: none; }
+ .assembly-step-nav span { display: none; }
+ .assembly-detail { min-height: 3.3em!important; }
+ .photo-slot { min-height: 230px; }
+}
+@media (prefers-reduced-motion: reduce) { .assembly.swipe-assembly .hood-parts > g { transition: none; } }
+
+.contact-actions > a { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+ .assembly-pin { padding-block: 1.5rem; }
+ .assembly-copy > p:not(.eyebrow) { max-width: none; }
+ .assembly-stage svg { height: min(34svh, 300px); }
+ .assembly-detail { min-height: 2.7em!important; }
+ .contact-opening .contact-actions strong { font-size: clamp(.78rem,3.7vw,.95rem); }
+}
