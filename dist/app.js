@@ -48,7 +48,7 @@ if (assembly) {
   const render = time => {
     animationFrame = undefined;
     const travel = scrubber.scrollWidth - scrubber.clientWidth;
-    const target = travel > 0 ? scrubber.scrollLeft / travel : 0;
+    const target = travel <= 0 ? 0 : travel - scrubber.scrollLeft <= 2 ? 1 : Math.max(0, scrubber.scrollLeft / travel);
     const elapsed = previousTime === undefined ? 16 : Math.min(64, time - previousTime);
     previousTime = time;
     const blend = reducedMotion.matches ? 1 : 1 - Math.exp(-elapsed / 65);
