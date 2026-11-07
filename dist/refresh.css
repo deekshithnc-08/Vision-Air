@@ -381,3 +381,9 @@ footer { padding-bottom: 5rem; }
 .quote-person strong { font-size: 1rem; letter-spacing: -.015em; }
 .quote-person small { display: block; margin-top: .35rem; font-size: .65rem; }
 .quote-placeholder blockquote { line-height: 1.5; }
+
+.reference-intro h1 { font-size: clamp(2.5rem,6vw,5rem); }
+.reference-logo { height: 72px; display: flex; align-items: center; margin-bottom: 1.3rem; padding: .4rem .6rem; border-radius: .5rem; background: white; }
+.reference-logo img { width: auto; max-width: 100%; max-height: 55px; height: auto; object-fit: contain; }
+.reference-card .placeholder-tag { font-size: .65rem; }
+.reference-card blockquote { font-size: clamp(1.25rem,2vw,1.65rem); }
