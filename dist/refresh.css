@@ -295,3 +295,44 @@ footer { padding-bottom: 5rem; }
  .assembly-detail { min-height: 2.7em!important; }
  .contact-opening .contact-actions strong { font-size: clamp(.78rem,3.7vw,.95rem); }
 }
+
+/* Native horizontal scrolling: touch, trackpad, scrollbar and mouse drag. */
+.assembly-reel {
+ display: flex; width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden;
+ scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+ scrollbar-width: thin; scrollbar-color: #9de4d0 #1f4249;
+ touch-action: pan-x pan-y; cursor: grab; border-radius: .8rem;
+}
+.assembly-reel.is-dragging { scroll-snap-type: none; cursor: grabbing; }
+.assembly-frame { flex: 0 0 100%; min-width: 0; margin: 0; scroll-snap-align: start; user-select: none; }
+.assembly-frame svg { width: 100%; display: block; }
+.assembly-frame figcaption { padding: 1rem; font-size: .85rem; }
+.horizontal-assembly .assembly-frame figcaption { display: none; }
+.assembly-scroll-hint { margin: .7rem 0 0; color: #adcac5; font: .75rem/1.5 monospace; }
+.assembly-progress { display: grid; grid-template-columns: repeat(9,minmax(0,1fr)); gap: .35rem; margin-top: .9rem; }
+.assembly-progress i { height: 3px; background: #41615f; border-radius: 5px; }
+.assembly-progress i.active { background: #b6f8e1; }
+
+/* Client stories: portrait slots and editorial quotation cards. */
+.testimonials .placeholder-grid { gap: clamp(1rem,2vw,1.8rem); }
+.quote-placeholder { display: flex; flex-direction: column; position: relative; border: 1px solid #c9d8d0; border-radius: 1rem; padding: clamp(1.3rem,2.6vw,2.3rem); box-shadow: 0 8px 25px #143c2f08; }
+.quote-placeholder:nth-child(2) { background: #13383f; color: #e9fff4; border-color: #13383f; }
+.quote-top { display: flex; align-items: center; justify-content: space-between; gap: .8rem; margin-bottom: .8rem; }
+.quote-symbol { font: 4rem/.8 Georgia,serif; color: #6c9c87; }
+.quote-top .placeholder-tag { font-size: .65rem; padding: .25rem .5rem; border: 1px solid #bdd1c6; border-radius: 99px; margin: 0; }
+.quote-placeholder blockquote { font: clamp(1.15rem,2vw,1.7rem)/1.45 Georgia,serif; margin: .3rem 0 2rem; flex: 1; }
+.quote-person { display: flex; align-items: center; gap: .9rem; padding-top: 1.2rem; border-top: 1px solid #c6d8ce; }
+.quote-person > div:last-child { min-width: 0; }
+.quote-person strong { display: block; font-size: .82rem; font-weight: 500; }
+.quote-person p, .quote-person small { font-size: .73rem; margin: .15rem 0!important; line-height: 1.5; }
+.quote-person small { color: #6c7e77; }
+.quote-portrait { width: 66px; height: 78px; flex: 0 0 66px; display: grid; place-items: center; border-radius: .65rem; background: #e0ebe3; border: 1px dashed #97b09e; color: #a4bcad; position: relative; }
+.quote-portrait svg { width: 45px; height: 45px; }
+.quote-portrait span { position: absolute; bottom: 4px; color: #456255; font: .55rem/1 monospace; letter-spacing: .07em; text-transform: uppercase; }
+.quote-placeholder:nth-child(2) blockquote { color: #effff5; }
+.quote-placeholder:nth-child(2) .placeholder-tag, .quote-placeholder:nth-child(2) .quote-person p, .quote-placeholder:nth-child(2) .quote-person small { color: #c0d9cf; }
+.quote-placeholder:nth-child(2) .quote-person { border-color: #50736d; }
+@media (max-width: 760px) {
+ .quote-placeholder { padding: 1.4rem; }
+ .quote-placeholder blockquote { font-size: 1.4rem; }
+}

@@ -35,69 +35,46 @@ if (!reducedMotion.matches) {
 
 const assembly = document.querySelector('[data-assembly]');
 if (assembly) {
-    const steps = [
-      ['Support frame', 'The support frame carries the layers above it.'],
-      ['Base cabinet', 'The cabinet provides storage beneath the work surface.'],
-      ['Worktop', 'The worktop forms the surface inside the chamber.'],
-      ['Containment enclosure', 'Rear and side panels define the work chamber.'],
-      ['Rear baffle', 'The baffle guides air from the chamber toward the exhaust.'],
-      ['Glazed sash', 'The sash gives the operator a view and controls the working opening.'],
-      ['Exhaust plenum', 'The plenum collects air from the chamber.'],
-      ['Duct collar', 'The collar connects the hood to the building exhaust system.'],
-      ['One integrated system', 'Cabinet, chamber and exhaust come together as one fume hood.']
-    ];
-
-  const parts = Array.from(assembly.querySelectorAll('[data-piece]'));
-  const number = assembly.querySelector('[data-step-number]');
+  const reel = assembly.querySelector('.assembly-reel');
+  const frames = Array.from(reel.querySelectorAll('.assembly-frame'));
+  const markers = assembly.querySelectorAll('.assembly-progress i');
   const title = assembly.querySelector('[data-step-title]');
   const detail = assembly.querySelector('[data-step-detail]');
-  const stage = assembly.querySelector('.assembly-stage');
-  const range = assembly.querySelector('#assembly-range');
-  const previous = assembly.querySelector('[data-assembly-prev]');
-  const next = assembly.querySelector('[data-assembly-next]');
-  const markers = assembly.querySelectorAll('[data-assembly-step]');
-  let index = 0;
-  let gesture;
-
-  const showStep = value => {
-    index = Math.min(steps.length - 1, Math.max(0, value));
-    assembly.classList.toggle('is-complete', index === steps.length - 1);
-    for (const part of parts) {
-      const order = Number(part.dataset.piece);
-      const offset = order <= index ? 0 : 1;
-      part.setAttribute('transform', `translate(${Number(part.dataset.x) * offset} ${Number(part.dataset.y) * offset})`);
-      part.style.opacity = order > index ? '.6' : '1';
-      part.classList.toggle('is-current', order === index);
-    }
+  const number = assembly.querySelector('[data-step-number]');
+  let scheduled = false;
+  let drag;
+  const updateLayer = () => {
+    scheduled = false;
+    const index = Math.min(frames.length - 1, Math.max(0, Math.round(reel.scrollLeft / reel.clientWidth)));
+    const caption = frames[index].querySelector('figcaption');
     number.textContent = String(index + 1).padStart(2, '0');
-    [title.textContent, detail.textContent] = steps[index];
-    range.value = index;
-    range.setAttribute('aria-valuetext', `${index + 1} of ${steps.length}: ${steps[index][0]}`);
-    previous.disabled = index === 0;
-    next.disabled = index === steps.length - 1;
-    markers.forEach((marker, i) => marker.setAttribute('aria-pressed', String(i === index)));
+    title.textContent = caption.querySelector('strong').textContent;
+    detail.textContent = caption.querySelector('p').textContent;
+    markers.forEach((marker, i) => marker.classList.toggle('active', i <= index));
   };
-  previous.addEventListener('click', () => showStep(index - 1));
-  next.addEventListener('click', () => showStep(index + 1));
-  range.addEventListener('input', () => showStep(Number(range.value)));
-  markers.forEach(marker => marker.addEventListener('click', () => showStep(Number(marker.dataset.assemblyStep))));
-  stage.addEventListener('pointerdown', event => {
-    if (event.target.closest('button, input')) return;
-    gesture = { id: event.pointerId, x: event.clientX, y: event.clientY };
-    stage.setPointerCapture(event.pointerId);
+  reel.addEventListener('scroll', () => {
+    if (!scheduled) { scheduled = true; requestAnimationFrame(updateLayer); }
+  }, { passive: true });
+  reel.addEventListener('keydown', event => {
+    const direction = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+    if (!direction) return;
+    event.preventDefault();
+    reel.scrollBy({ left: direction * reel.clientWidth, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
   });
-  stage.addEventListener('pointerup', event => {
-    if (gesture?.id !== event.pointerId) return;
-    const dx = event.clientX - gesture.x;
-    const dy = event.clientY - gesture.y;
-    if (Math.abs(dx) > 32 && Math.abs(dx) > Math.abs(dy) * 1.2) showStep(index + (dx < 0 ? 1 : -1));
-    gesture = undefined;
+  reel.addEventListener('pointerdown', event => {
+    if (event.pointerType !== 'mouse' || event.button !== 0) return;
+    drag = { id: event.pointerId, x: event.clientX, start: reel.scrollLeft };
+    reel.setPointerCapture(event.pointerId);
+    reel.classList.add('is-dragging');
   });
-  stage.addEventListener('pointercancel', () => { gesture = undefined; });
-  assembly.querySelector('.assembly-controls').hidden = false;
-  assembly.querySelector('.assembly-step-buttons').hidden = false;
-  assembly.classList.add('swipe-assembly');
-  showStep(0);
+  reel.addEventListener('pointermove', event => {
+    if (drag?.id === event.pointerId) reel.scrollLeft = drag.start + drag.x - event.clientX;
+  });
+  const endDrag = () => { drag = undefined; reel.classList.remove('is-dragging'); };
+  for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) reel.addEventListener(type, endDrag);
+  new ResizeObserver(updateLayer).observe(reel);
+  assembly.classList.add('horizontal-assembly');
+  updateLayer();
 }
 
 document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});document.querySelectorAll('[data-category]').forEach(card=>card.hidden=button.dataset.filter!=='All products'&&card.dataset.category!==button.dataset.filter);}));
