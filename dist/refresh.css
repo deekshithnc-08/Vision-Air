@@ -388,7 +388,8 @@ footer { padding-bottom: 5rem; }
 .reference-card .placeholder-tag { font-size: .65rem; }
 .reference-card blockquote { font-size: clamp(1.25rem,2vw,1.65rem); }
 
-.header-milestones { display: flex; flex-wrap: wrap; justify-content: center; gap: .15rem 1.5rem; padding: .35rem 1rem; background: #15343b; color: #f2fff8; font-size: .75rem; font-weight: 600; }
+.header-milestones { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .2rem clamp(.9rem, 4vw, 3rem); padding: .55rem .75rem; background: linear-gradient(100deg,#173d42,#09282f); color: #f2fff8; font-size: clamp(.72rem, 1.4vw, 1rem); font-weight: 600; }
+.header-milestones strong { color: #ffca95; font-size: 1.3em; font-weight: 750; }
 .product-preview { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-block: 2rem; border-block: 1px solid var(--line); }
 .product-preview h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); margin-bottom: .4rem; }
 .product-preview p { margin: 0; }
