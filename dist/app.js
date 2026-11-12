@@ -113,22 +113,6 @@ if(form){const selected=new URLSearchParams(location.search).get('product');if(s
  form.addEventListener('input',()=>{document.querySelector('#inquiry-result').hidden=true;});
 }
 
-const projectSearch = document.querySelector('#project-search');
-if (projectSearch) {
-  const projects = Array.from(document.querySelectorAll('.project-directory .clients li'));
-  const count = document.querySelector('#project-count');
-  projectSearch.closest('label').hidden = false;
-  projectSearch.addEventListener('input', () => {
-    const query = projectSearch.value.trim().toLowerCase();
-    let visible = 0;
-    for (const project of projects) {
-      project.hidden = !project.textContent.toLowerCase().includes(query);
-      if (!project.hidden) visible++;
-    }
-    count.textContent = query ? (visible ? `${visible} matching projects` : 'No matching projects.') : '';
-  });
-}
-
 const clientMarquee = document.querySelector('#client-marquee');
 if (clientMarquee && !reducedMotion.matches) {
   const motionButton = document.querySelector('.client-motion');
