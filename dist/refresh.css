@@ -388,10 +388,19 @@ footer { padding-bottom: 5rem; }
 .reference-card .placeholder-tag { font-size: .65rem; }
 .reference-card blockquote { font-size: clamp(1.25rem,2vw,1.65rem); }
 
-.header-milestones { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .2rem clamp(.9rem, 4vw, 3rem); padding: .55rem .75rem; background: linear-gradient(100deg,#173d42,#09282f); color: #f2fff8; font-size: clamp(.72rem, 1.4vw, 1rem); font-weight: 600; }
-.header-milestones strong { color: #ffca95; font-size: 1.3em; font-weight: 750; }
 .product-preview { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-block: 2rem; border-block: 1px solid var(--line); }
 .product-preview h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); margin-bottom: .4rem; }
 .product-preview p { margin: 0; }
 html { scroll-padding-top: 130px; }
 @media (max-width: 760px) { html { scroll-padding-top: 110px; } }
+
+.hero { height: auto; max-height: none; }
+.hero-milestones { display: grid; grid-template-columns: auto auto; width: fit-content; max-width: 100%; margin: 1.1rem 0 0; padding-block: .85rem; border-block: 1px solid #d8f5e963; }
+.hero-milestones > div { display: flex; flex-direction: column-reverse; padding-inline: clamp(.85rem, 2.5vw, 2rem); }
+.hero-milestones > div:first-child { padding-inline-start: 0; border-inline-end: 1px solid #d8f5e963; }
+.hero-milestones dd { margin: 0; color: #a9f6e0; font-size: clamp(1.65rem, 4vw, 3.6rem); line-height: 1.05; letter-spacing: -.055em; font-weight: 650; }
+.hero-milestones dt { margin-top: .35rem; color: #f3fff9; font-size: clamp(.72rem, 1.4vw, .95rem); }
+@media (max-width: 760px) {
+ .hero-milestones { margin-top: .8rem; padding-block: .65rem; }
+ .hero-actions { margin-top: 1rem; }
+}
