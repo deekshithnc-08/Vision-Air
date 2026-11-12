@@ -404,3 +404,9 @@ html { scroll-padding-top: 130px; }
  .hero-milestones { margin-top: .8rem; padding-block: .65rem; }
  .hero-actions { margin-top: 1rem; }
 }
+
+.assembly-live-model{position:relative}
+.assembly-manufacturing-film{position:absolute;inset:0;display:grid;align-content:center;gap:.35rem;margin:0;background:#081e25}
+.assembly-manufacturing-film[hidden]{display:none}
+.assembly-manufacturing-film video{display:block;width:100%;height:auto;max-height:calc(100% - 1.35rem);aspect-ratio:16/9;object-fit:contain;background:#081e25}
+.assembly-manufacturing-film figcaption{font-size:.7rem;color:#b4d7d0}

@@ -39,6 +39,8 @@ if (assembly) {
   const scene = assembly.querySelector('.assembly-live-model');
   const scrubber = assembly.querySelector('.assembly-scrubber');
   const pieces = assembly.querySelectorAll('[data-piece]');
+  const manufacturing = assembly.querySelector('.assembly-manufacturing-film');
+  const film = manufacturing.querySelector('video');
   const markers = assembly.querySelectorAll('.assembly-progress i');
   let gesture;
   let step;
@@ -67,6 +69,13 @@ if (assembly) {
     assembly.classList.toggle('is-complete', index === 8);
     if (step === index) return;
     step = index;
+    manufacturing.hidden = index !== 8;
+    if (index === 8) {
+      film.currentTime = 0;
+      film.play().catch(() => {});
+    } else {
+      film.pause();
+    }
     assembly.querySelector('[data-step-number]').textContent = String(index + 1).padStart(2, '0');
     assembly.querySelector('[data-step-title]').textContent = stages[index][0];
     assembly.querySelector('[data-step-detail]').textContent = stages[index][1];
