@@ -453,16 +453,24 @@ html { scroll-padding-top: 1rem; }
   background: linear-gradient(90deg, #0b252c9c, transparent 75%);
 }
 @media (max-width: 760px) {
-  .hero { background: #0b252c; }
+  .hero {
+    --mobile-film-height: clamp(13rem, 36svh, 23rem);
+    background: #0b252c;
+  }
+  .hero-copy { padding-top: calc(var(--mobile-film-height) - 1.25rem); }
   .hero #hero-video,
   .hero .hero-poster {
-    inset: 42% 0 0;
+    inset: 0 0 auto;
     width: 100%;
-    height: 58%;
+    height: var(--mobile-film-height);
     object-fit: cover;
     object-position: center;
   }
   .hero-shade {
-    background: linear-gradient(180deg, #0b252c 42%, #0b252cdb 51%, #0b252c66 70%, #0b252c24 90%, #0b252c80);
+    height: var(--mobile-film-height);
+    background: linear-gradient(180deg, transparent 56%, #0b252c50 75%, #0b252c);
+  }
+  .hero-grid {
+    top: var(--mobile-film-height);
   }
 }
