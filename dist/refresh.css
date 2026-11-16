@@ -468,9 +468,10 @@ html { scroll-padding-top: 1rem; }
   }
   .hero-shade {
     height: var(--mobile-film-height);
-    background: linear-gradient(180deg, transparent 56%, #0b252c50 75%, #0b252c);
+    background: linear-gradient(180deg, #0b252c00 16%, #0b252c14 30%, #0b252c45 47%, #0b252c94 63%, #0b252cdb 80%, #0b252cf7 93%, #0b252c 100%);
   }
   .hero-grid {
-    top: var(--mobile-film-height);
+    top: calc(var(--mobile-film-height) - 2rem);
+    mask-image: linear-gradient(180deg, transparent, black 9rem);
   }
 }
