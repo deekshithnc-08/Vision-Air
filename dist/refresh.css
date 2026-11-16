@@ -434,3 +434,11 @@ html { scroll-padding-top: 1rem; }
 @media (max-width: 760px) { .offering-row { grid-template-columns: minmax(0,1fr); } }
 
 .about-standards { width: fit-content; max-width: 100%; margin: 1rem 0 0; padding: .65rem .9rem; border-inline-start: 3px solid var(--accent); background: #deece6; color: #15343b; font-size: .9rem; font-weight: 600; }
+
+/* Crop the lower edge of the manufacturing footage within the hero. */
+.hero video { height: 118%; object-position: center top; }
+@media (min-width: 1000px) {
+ .hero video, .hero-poster { inset-inline-start: 44%; width: 56%; }
+ .hero-shade { background: linear-gradient(90deg, #0b252c 40%, #0b252cb0 54%, #0b252c16 77%), linear-gradient(0deg, #0b252cb0, transparent 35%); }
+ .hero h1, .hero-copy > p { max-width: 48%; }
+}
