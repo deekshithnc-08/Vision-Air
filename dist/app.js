@@ -35,7 +35,7 @@ if (!reducedMotion.matches) {
 
 const assembly = document.querySelector('[data-assembly]');
 if (assembly) {
-  const stages = [["Support frame", "The support frame carries the layers above it."], ["Base cabinet", "Storage sits beneath the work surface."], ["Worktop", "A dedicated surface for laboratory work."], ["Containment enclosure", "Rear and side panels define the work chamber."], ["Rear baffle", "The baffle guides air toward the exhaust."], ["Glazed sash", "The sash controls the working opening."], ["Exhaust plenum", "The plenum collects air from the chamber."], ["Duct collar", "The hood connects to the building exhaust."], ["One integrated system", "The layers come together as one fume hood."]];
+  const stages = [["Plan", "Define the lab layout and equipment needs."], ["Design", "Develop drawings around the workspace and utilities."], ["Prepare materials", "Select and prepare the sheet metal for fabrication."], ["Precision cutting", "Cut panels and openings to the design dimensions."], ["Precision bending", "Form edges and flanges for the enclosure."], ["Assemble", "Fit the panels, worktop and sash together."], ["Inspect", "Check dimensions, fit and finish."], ["Install", "Position the hood and connect the site services."], ["See it made", "Watch an illustrative cutting, bending and assembly sequence."]];
   const scene = assembly.querySelector('.assembly-live-model');
   const scrubber = assembly.querySelector('.assembly-scrubber');
   const pieces = assembly.querySelectorAll('[data-piece]');
