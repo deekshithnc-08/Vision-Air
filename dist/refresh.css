@@ -454,7 +454,7 @@ html { scroll-padding-top: 1rem; }
 }
 @media (max-width: 760px) {
   .hero {
-    --mobile-film-height: clamp(13rem, 36svh, 23rem);
+    --mobile-film-height: clamp(13rem, 75vw, 23rem);
     background: #0b252c;
   }
   .hero-copy { padding-top: calc(var(--mobile-film-height) - 1.25rem); }

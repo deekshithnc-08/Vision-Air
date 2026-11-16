@@ -3,7 +3,7 @@
   "outputDirectory": "dist",
   "headers": [
     {
-      "source": "/assets/manufacturing-hero-mobile.e84e83a83f27.mp4",
+      "source": "/assets/manufacturing-hero-mobile.26662c1f75ab.mp4",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     },
     {
