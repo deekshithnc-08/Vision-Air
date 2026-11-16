@@ -442,3 +442,17 @@ html { scroll-padding-top: 1rem; }
  .hero-shade { background: linear-gradient(90deg, #0b252c 40%, #0b252cb0 54%, #0b252c16 77%), linear-gradient(0deg, #0b252cb0, transparent 35%); }
  .hero h1, .hero-copy > p { max-width: 48%; }
 }
+
+.hero #hero-video {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+}
+.hero-shade {
+  background: linear-gradient(90deg, #0b252c9c, transparent 75%);
+}
+@media (max-width: 760px) {
+  .hero #hero-video { object-position: right center; }
+  .hero-shade { background: #0b252c80; }
+}
