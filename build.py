@@ -103,7 +103,7 @@ def asset_version(name):
  return sha256((D/name).read_bytes()).hexdigest()[:12]
 
 hero_poster = '/assets/hero-poster.47452400cd23.webp'
-hero_film = '/assets/lab-hero.bcdd4dd04d1f.mp4'
+hero_film = '/assets/manufacturing-hero.5b23c38a448f.mp4'
 whatsapp_url = 'https://wa.me/919632987799'
 whatsapp_icon = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 0-11 20L3 29l6-2A13 13 0 1 0 16 3Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11 9c-3 0-2 5 1 8s8 5 10 2l-4-3-2 1c-2-1-3-2-4-4l1-1Z" fill="currentColor"/></svg>'
 
